@@ -23,7 +23,10 @@ app.get('/api/stream', async (req, res) => {
 
   try {
     const plsRes = await fetch(url)
-    if (!plsRes.ok) throw new Error(`pls fetch failed: ${plsRes.status}`)
+    if (!plsRes.ok) {
+      res.status(plsRes.status).json({ error: `Upstream error: ${plsRes.statusText || plsRes.status}` })
+      return
+    }
     const text = await plsRes.text()
     const match = text.match(/^File1=(.+)$/m)
     if (!match) throw new Error('no File1 in pls')

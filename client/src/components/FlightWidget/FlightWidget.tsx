@@ -48,9 +48,18 @@ export function FlightWidget({ aircraft, onClose }: Props) {
     ? `${vrateFpm > 0 ? '+' : ''}${vrateFpm.toLocaleString()} fpm`
     : null
 
+  const PHASE_COLOR: Record<string, string> = {
+    ground:    '#9ca3af',
+    tower:     '#f59e0b',
+    approach:  '#22d3ee',
+    departure: '#a78bfa',
+    unknown:   '#6b7280',
+  }
+  const color = PHASE_COLOR[aircraft.phase] || '#ffffff'
+
   return (
-    <div className={styles.widget}>
-      <button className={styles.close} onClick={onClose} aria-label="Close">×</button>
+    <div className={styles.widget} style={{ color }}>
+      <button className={styles.close} onClick={onClose} aria-label="Close" style={{ color }}>×</button>
 
       <div className={styles.callsign}>
         {aircraft.callsign ?? aircraft.icao24.toUpperCase()}
@@ -69,7 +78,7 @@ export function FlightWidget({ aircraft, onClose }: Props) {
         <Stat label="Contact"  value={formatLastContact(aircraft.lastContact)} />
       </div>
 
-      <AudioPlayer phase={aircraft.phase} />
+      <AudioPlayer phase={aircraft.phase} airport={aircraft.airport} />
     </div>
   )
 }

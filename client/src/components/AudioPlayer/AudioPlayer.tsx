@@ -5,11 +5,12 @@ import styles from './AudioPlayer.module.css'
 
 interface Props {
   phase: FlightPhase
+  airport: string | null
 }
 
-export function AudioPlayer({ phase }: Props) {
+export function AudioPlayer({ phase, airport }: Props) {
   const audioRef = useRef<HTMLAudioElement>(null)
-  const stream = streamForPhase(phase)
+  const stream = streamForPhase(phase, airport)
   const [resolvedUrl, setResolvedUrl] = useState<string | null>(null)
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export function AudioPlayer({ phase }: Props) {
         ref={audioRef}
         controls
         src={resolvedUrl ?? undefined}
-        preload="none"
+        autoPlay
         className={styles.audio}
       />
     </div>

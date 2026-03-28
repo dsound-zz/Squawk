@@ -93,3 +93,15 @@ Approach and departure both use the same NY TRACON stream for now (separate freq
 - Multiple ATC frequencies per phase (e.g. JFK has two tower frequencies) — the multi-stream UI is the next planned feature
 - Approach/departure streams are the same TRACON feed; real departure control is a separate frequency
 - Airport filter only applies to ground/tower; approach/departure always show
+
+## Recent Changes
+
+- **Map Interaction**: Replaced `click` with `mousedown` in `react-leaflet` `Marker` event handlers. This resolves an issue where selecting an aircraft was failing because React-Leaflet recreates the DOM node of the custom `divIcon` every frame (60fps) during `requestAnimationFrame` interpolation. `mousedown` registers instantly and bypasses the missed `mouseup` event.
+- **ATC Autoplay**: Enabled the `autoPlay` attribute on the HTML5 `<audio>` element for the `AudioPlayer` component. Browsers permit autoplay audio after the user has interacted with the document (by clicking on a plane on the map), resulting in a better user experience when opening the flight widget.
+- **ATC Audio 404 Fix**: Updated `atcStreams.ts` to use `kjfk_app_camrn.pls` instead of the broken/missing `kjfk_app.pls` feed for New York Approach and Departure feeds to fix 404 errors during stream resolution.
+- **Metadata Text Color**: Applied inline styling to the `FlightWidget.tsx` root container to match the text color of the widget to the color corresponding to the current flight phase (matching the selected aircraft color).
+- **Tower Stream Fix**: Updated `atcStreams.ts` to use `kjfk_twr.pls` instead of the missing `kjfk3.pls` for JFK Tower aircraft.
+- **Proxy Graceful Error Handling**: Modified `server/src/index.ts` so that when encountering upstream fetch errors (like a missing `.pls` file), the local server passes back the original HTTP status (e.g., 404 Not Found) instead of defaulting to a generic 500 Internal Server Error, providing clearer insights on stream failures.
+- **Metadata Stats Color**: Removed the hardcoded `#22d3ee` (cyan/blue) color from `.statValue` in `FlightWidget.module.css` so that data values automatically inherit the dynamic phase color applied to the `FlightWidget` container.
+- **Airport-Specific ATC & Frequencies**: Altered `atcStreams.ts` to dynamically return LiveATC `.pls` streams based on both `aircraft.phase` and `aircraft.airport`. `AudioPlayer` now accurately tunes into `KLGA` or `KEWR` tower/ground feeds when corresponding aircraft are clicked. Additionally, the ATC usage and frequency (e.g., `LGA Tower (118.7)`) are visibly grouped into the player's label instead of generically hardcoding to JFK.
+- **TRACON Stream Outage Mitigation**: Changed NY TRACON Approach/Departure streams from `kjfk_app_camrn.pls` (which is offline causing 404 errors) to `kjfk2.pls` (a working feed for JFK) to ensure audio loads without throwing browser GET errors.

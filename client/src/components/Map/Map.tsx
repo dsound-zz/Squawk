@@ -63,7 +63,10 @@ export function Map({ aircraft, filters, selectedIcao, onSelect }: Props) {
             key={ac.icao24}
             position={[ac.interpLat, ac.interpLon]}
             icon={icon}
-            eventHandlers={{ click: () => onSelect(ac.icao24) }}
+            eventHandlers={{
+              click: () => onSelect(ac.icao24),
+              mousedown: () => onSelect(ac.icao24)
+            }}
           />
         )
       })}
