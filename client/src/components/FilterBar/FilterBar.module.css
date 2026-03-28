@@ -1,0 +1,81 @@
+.bar {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(17, 24, 39, 0.92);
+  border: 1px solid #374151;
+  border-radius: 9999px;
+  padding: 8px 16px;
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
+.brand {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: #22d3ee;
+}
+
+.airport {
+  font-size: 11px;
+  color: #6b7280;
+  font-family: 'SF Mono', monospace;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: #374151;
+  margin: 0 4px;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 1px solid #374151;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.pill:hover {
+  border-color: var(--phase-color);
+  color: #f9fafb;
+}
+
+.pill.active {
+  background: color-mix(in srgb, var(--phase-color) 15%, transparent);
+  border-color: var(--phase-color);
+  color: var(--phase-color);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--phase-color);
+  opacity: 0.6;
+}
+
+.pill.active .dot {
+  opacity: 1;
+}
+
+.count {
+  font-family: 'SF Mono', monospace;
+  font-size: 11px;
+  color: #6b7280;
+  margin-left: 4px;
+}
